@@ -142,6 +142,8 @@ Authorization: Bearer <accessToken>
 
 ## 🏛️ Domain Model
 
+This portfolio demonstrates core domain models following clean architecture principles. Additional models implementing the same patterns are available in the full codebase but are not included here to maintain focus on key architectural concepts.
+
 ### User
 - Authentication (email/password, JWT tokens)
 - Profile information (name, phone, address)
@@ -167,7 +169,7 @@ Authorization: Bearer <accessToken>
   - **Universal Support**: Works with any entity implementing the `Ownable` interface
   - **Method-Level Security**: Used in `@PreAuthorize` annotations to ensure users can only modify their own resources
   - **Automatic Validation**: Validates ownership before allowing update/delete operations
-  - **Usage Example**: `@PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'venue')")`
+  - **Usage Example**: `@PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'venue')")` - **`@ownableSecurity.isOwner(#id, 'venue')`** is the key function
 - **CORS Configuration**: Configurable CORS policies
 - **Token Management**: Access and refresh token support
 
