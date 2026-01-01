@@ -210,29 +210,13 @@ The project implements a **database-driven translation system** for multi-langua
 
 - **Inheritance Model**: All entities extend `BaseEntity` which extends `Translation`, providing translation support automatically
 
-- **Language Resolution**: 
-  - Language is passed via `Accept-Language` HTTP header
-  - `LangList.resolveLanguage()` validates and normalizes language codes
-  - Supports formats like "en-US", "ar-SA", "ar,en;q=0.9"
-  - Defaults to "en" if invalid or missing
+- **Language Resolution & Translation Process**: Language via `Accept-Language` header, validated by `LangList.resolveLanguage()` (supports "en-US", "ar-SA", "ar,en;q=0.9", defaults to "en"). Flow: Entity stores translations → Service converts to DTO → DTO's `translate()` method applies translations → Response returns localized content
 
-- **Translation Process**:
-  1. Entity stores translations in the `translations` field
-  2. Service layer retrieves entity and converts to DTO
-  3. DTO's `translate()` method replaces field values with translated versions
-  4. Response returns localized content based on `Accept-Language` header
+- **DTO Translation Functions**: Each DTO has its own translation function (e.g., `translateVenue()`, `translateOffer()`) that handles field-specific translation logic and validation
 
-- **DTO Translation Functions**: Each DTO has its own translation function (e.g., `translateVenue()`, `translateOffer()`)
-  - These functions handle field-specific translation logic
-  - Each function validates and applies translations for its specific entity type
+- **Hierarchical Translation Pattern**: Parent models can call sub-model translation functions (e.g., `translateVenue()` calls `translateOffer()` for nested objects), enabling complete translation of complex nested structures
 
-- **Hierarchical Translation Pattern**: Parent models can call sub-model translation functions
-  - Example: `translateVenue()` can call `translateOffer()` for nested offer objects
-  - Enables complete translation of complex nested structures
-  - Maintains separation of concerns while ensuring comprehensive localization
-
-- **Supported Languages**: English (EN - default), Arabic (AR), Hebrew (HE)
-- **Extensible**: Easy to add new languages by extending `LANGUAGE_TYPE` enum
+- **Supported Languages**: English (EN - default), Arabic (AR), Hebrew (HE). Extensible by extending `LANGUAGE_TYPE` enum
 
 #### Benefits Over Column-Based Approach
 
