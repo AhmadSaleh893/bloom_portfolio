@@ -13,6 +13,24 @@
 
 </div>
 
+## 📑 Table of Contents
+
+- [Project Overview](#-project-overview)
+- [Architecture](#️-architecture)
+- [Getting Started](#-getting-started)
+- [API Documentation](#-api-documentation)
+- [Authentication](#-authentication)
+- [API Endpoints](#-api-endpoints)
+- [Domain Model](#️-domain-model)
+- [Security Features](#-security-features)
+- [Key Patterns & Practices](#️-key-patterns--practices)
+  - [Translation Method](#-translation-method)
+- [Testing](#-testing)
+- [Technologies Used](#-technologies-used)
+- [Learning Highlights](#-learning-highlights)
+
+---
+
 ## 📋 Project Overview
 
 A production-ready **Spring Boot REST API** demonstrating enterprise Java development with clean architecture, security best practices, and modern design patterns. This portfolio project showcases a booking system API with user management, venue operations, and offer handling.
@@ -23,7 +41,7 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 |---------|-------------|
 | 🔐 **JWT Authentication** | Secure token-based authentication with Spring Security & refresh tokens |
 | 🏗️ **Clean Architecture** | Layered design (Controllers → Services → Repositories → MongoDB) |
-| 🌍 **Multi-Language Support** | Built-in translation system for EN, AR, HE languages. • Each DTO has its own translation function (e.g., `translateVenue`, `translateOffer`). • Hierarchical translation pattern allows parent models to call sub-model translation functions |
+| 🌍 **[Multi-Language Support](#-translation-method)** | Built-in translation system for EN, AR, HE languages |
 | 🔒 **Ownership Validation** | Generic `isOwner()` function ensures data integrity - users can only modify their own resources |
 | 🛡️ **Global Exception Handling** | Centralized error management with standardized error responses |
 | 📊 **MongoDB Integration** | Spring Data MongoDB with custom queries & soft deletes |
@@ -260,6 +278,15 @@ The project implements a **database-driven translation system** for multi-langua
   3. DTO's `translate()` method replaces field values with translated versions
   4. Response returns localized content based on `Accept-Language` header
 
+- **DTO Translation Functions**: Each DTO has its own translation function (e.g., `translateVenue()`, `translateOffer()`)
+  - These functions handle field-specific translation logic
+  - Each function validates and applies translations for its specific entity type
+
+- **Hierarchical Translation Pattern**: Parent models can call sub-model translation functions
+  - Example: `translateVenue()` can call `translateOffer()` for nested offer objects
+  - Enables complete translation of complex nested structures
+  - Maintains separation of concerns while ensuring comprehensive localization
+
 - **Supported Languages**: English (EN - default), Arabic (AR), Hebrew (HE)
 - **Extensible**: Easy to add new languages by extending `LANGUAGE_TYPE` enum
 
@@ -309,6 +336,8 @@ Run tests:
 mvn test
 ```
 
+[⬆ Back to Top](#-table-of-contents)
+
 ## 📦 Technologies Used
 
 - **Spring Boot 3.4.2** - Application framework
@@ -320,6 +349,8 @@ mvn test
 - **Swagger/OpenAPI** - API documentation
 - **Jakarta Bean Validation** - Input validation
 - **Maven** - Dependency management
+
+[⬆ Back to Top](#-table-of-contents)
 
 ## 🎓 Learning Highlights
 
