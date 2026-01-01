@@ -23,12 +23,14 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 |---------|-------------|
 | 🔐 **JWT Authentication** | Secure token-based authentication with Spring Security & refresh tokens |
 | 🏗️ **Clean Architecture** | Layered design (Controllers → Services → Repositories → MongoDB) |
-| 🌍 **Multi-Language Support** | Built-in translation system for EN, AR, HE languages And easy to add more |
+| 🌍 **Multi-Language Support** | Built-in translation system for EN, AR, HE languages. • Each DTO has its own translation function (e.g., `translateVenue`, `translateOffer`). • Hierarchical translation pattern allows parent models to call sub-model translation functions |
+| 🔒 **Ownership Validation** | Generic `isOwner()` function ensures data integrity - users can only modify their own resources |
 | 🛡️ **Global Exception Handling** | Centralized error management with standardized error responses |
 | 📊 **MongoDB Integration** | Spring Data MongoDB with custom queries & soft deletes |
 | ✅ **Input Validation** | 	Jakarta Bean Validation for request validation and a custom `@EnumTypeExists` validator |
 | 📖 **API Documentation** | Swagger/OpenAPI integration for interactive API docs |
 | 🔄 **Domain Models** | User, Venue, and Offer management with DTO patterns |
+| 🔥 **Firebase Integration** | Firebase services integration for enhanced functionality |
 
 ---
 
@@ -236,6 +238,51 @@ Spring Data MongoDB repositories:
 - Projections for optimized queries
 - Soft delete filtering
 
+### Translation Method
+The project implements a **database-driven translation system** for multi-language support:
+
+- **Translation Storage**: Translations are stored in MongoDB as nested maps: `Map<String, Map<String, String>>`
+  - Outer key: Field name (e.g., "venueName", "description")
+  - Inner key: Language code (e.g., "en", "ar", "he")
+  - Value: Translated text
+
+- **Inheritance Model**: All entities extend `BaseEntity` which extends `Translation`, providing translation support automatically
+
+- **Language Resolution**: 
+  - Language is passed via `Accept-Language` HTTP header
+  - `LangList.resolveLanguage()` validates and normalizes language codes
+  - Supports formats like "en-US", "ar-SA", "ar,en;q=0.9"
+  - Defaults to "en" if invalid or missing
+
+- **Translation Process**:
+  1. Entity stores translations in the `translations` field
+  2. Service layer retrieves entity and converts to DTO
+  3. DTO's `translate()` method replaces field values with translated versions
+  4. Response returns localized content based on `Accept-Language` header
+
+- **Supported Languages**: English (EN - default), Arabic (AR), Hebrew (HE)
+- **Extensible**: Easy to add new languages by extending `LANGUAGE_TYPE` enum
+
+Example structure:
+```json
+{
+  "venueName": "Grand Hotel",
+  "description": "A luxurious hotel",
+  "translations": {
+    "venueName": {
+      "en": "Grand Hotel",
+      "ar": "فندق جراند",
+      "he": "מלון גרנד"
+    },
+    "description": {
+      "en": "A luxurious hotel",
+      "ar": "فندق فاخر",
+      "he": "מלון מפואר"
+    }
+  }
+}
+```
+
 ### Input Validation
 Comprehensive input validation using Jakarta Bean Validation:
 - **Standard Annotations**: `@NotNull`, `@NotBlank`, `@Size`, `@Min`, `@Max`, `@Email`, etc.
@@ -268,6 +315,7 @@ mvn test
 - **Spring Security** - Authentication & authorization
 - **Spring Data MongoDB** - Database integration
 - **JWT (JJWT)** - Token generation/validation
+- **Firebase** - Firebase services integration
 - **Lombok** - Boilerplate reduction
 - **Swagger/OpenAPI** - API documentation
 - **Jakarta Bean Validation** - Input validation
