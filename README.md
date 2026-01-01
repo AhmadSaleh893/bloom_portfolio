@@ -26,6 +26,7 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 | 🌍 **[Multi-Language Support](#translation-method)** | Built-in translation system for EN, AR and more languages |
 | 🔒 **[Ownership Validation](#ownership-validation)** | Generic `isOwner()` function ensures data integrity - users can only modify their own resources |
 | 🛡️ **Global Exception Handling** | Centralized error management with standardized error responses |
+| 🛡️ **AWS Services** | Use Ec2 instances and work on S3 storage for media |
 | 📊 **MongoDB Integration** | Spring Data MongoDB with custom queries & soft deletes |
 | ✅ **Input Validation** | 	Jakarta Bean Validation for request validation and a custom `@EnumTypeExists` validator |
 | 📖 **API Documentation** | Swagger/OpenAPI integration for interactive API docs |
