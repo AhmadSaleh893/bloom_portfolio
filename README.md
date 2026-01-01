@@ -24,7 +24,7 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 | 🔐 **JWT Authentication** | Secure token-based authentication with Spring Security & refresh tokens |
 | 🏗️ **Clean Architecture** | Layered design (Controllers → Services → Repositories → MongoDB) |
 | 🌍 **[Multi-Language Support](#translation-method)** | Built-in translation system for EN, AR, HE languages |
-| 🔒 **Ownership Validation** | Generic `isOwner()` function ensures data integrity - users can only modify their own resources |
+| 🔒 **[Ownership Validation](#ownership-validation)** | Generic `isOwner()` function ensures data integrity - users can only modify their own resources |
 | 🛡️ **Global Exception Handling** | Centralized error management with standardized error responses |
 | 📊 **MongoDB Integration** | Spring Data MongoDB with custom queries & soft deletes |
 | ✅ **Input Validation** | 	Jakarta Bean Validation for request validation and a custom `@EnumTypeExists` validator |
@@ -56,44 +56,6 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 │           MongoDB                   │  ← Database
 └─────────────────────────────────────┘
 ```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Java 17 or higher
-- Maven 3.6+
-- MongoDB (local or Atlas connection string)
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd bloom-portfolio
-```
-
-2. Configure MongoDB connection in `application.properties`:
-```properties
-spring.data.mongodb.uri=mongodb://localhost:27017/bloom-demo
-```
-
-3. Update JWT secret key (generate a new one for production):
-```properties
-application.security.jwt.secret-key=YOUR_SECRET_KEY_HERE
-```
-
-4. Build the project:
-```bash
-mvn clean install
-```
-
-5. Run the application:
-```bash
-mvn spring-boot:run
-```
-
-The API will be available at `http://localhost:8080`
 
 ## 📚 API Documentation
 
@@ -201,11 +163,11 @@ Authorization: Bearer <accessToken>
 - **Password Encryption**: BCrypt password hashing
 - **Role-Based Access Control**: ADMIN, USER roles
 - **Method Security**: `@PreAuthorize` annotations
-- **Ownership Validation**: Generic `isOwner()` function for data integrity
-  - Works with any entity implementing the `Ownable` interface
-  - Used in `@PreAuthorize` annotations to ensure users can only modify their own resources
-  - Example: `@PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'venue')")`
-  - Automatically validates ownership before allowing update/delete operations
+- **Ownership Validation** <a id="ownership-validation"></a>: Generic `isOwner()` function for data integrity
+  - **Universal Support**: Works with any entity implementing the `Ownable` interface
+  - **Method-Level Security**: Used in `@PreAuthorize` annotations to ensure users can only modify their own resources
+  - **Automatic Validation**: Validates ownership before allowing update/delete operations
+  - **Usage Example**: `@PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'venue')")`
 - **CORS Configuration**: Configurable CORS policies
 - **Token Management**: Access and refresh token support
 
@@ -271,6 +233,14 @@ The project implements a **database-driven translation system** for multi-langua
 
 - **Supported Languages**: English (EN - default), Arabic (AR), Hebrew (HE)
 - **Extensible**: Easy to add new languages by extending `LANGUAGE_TYPE` enum
+
+#### Benefits Over Column-Based Approach
+
+- **No Schema Changes**: Add new languages without database migrations
+- **Scalable**: Support unlimited languages without modifying schema
+- **Flexible**: Easy to add/remove languages without impacting existing data
+- **MongoDB-Optimized**: Leverages document structure for nested data
+- **Maintainable**: All translations stored together, easier to manage
 
 Example structure:
 ```json
@@ -353,6 +323,44 @@ This project demonstrates:
 - Sensitive configurations and proprietary business logic have been removed
 - The code focuses on showcasing architectural patterns and best practices
 - Production deployments should include additional security measures (HTTPS, rate limiting, etc.)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Java 17 or higher
+- Maven 3.6+
+- MongoDB (local or Atlas connection string)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd bloom-portfolio
+```
+
+2. Configure MongoDB connection in `application.properties`:
+```properties
+spring.data.mongodb.uri=mongodb://localhost:27017/bloom-demo
+```
+
+3. Update JWT secret key (generate a new one for production):
+```properties
+application.security.jwt.secret-key=YOUR_SECRET_KEY_HERE
+```
+
+4. Build the project:
+```bash
+mvn clean install
+```
+
+5. Run the application:
+```bash
+mvn spring-boot:run
+```
+
+The API will be available at `http://localhost:8080`
 
 ## 📄 License
 
