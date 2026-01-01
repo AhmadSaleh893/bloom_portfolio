@@ -31,6 +31,7 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 | 📖 **API Documentation** | Swagger/OpenAPI integration for interactive API docs |
 | 🔄 **Domain Models** | User, Venue, and Offer management with DTO patterns |
 | 🔥 **Firebase Integration** | Firebase services integration for enhanced functionality |
+| 🤖 **OpenAI Integration** | AI-powered chatbot that provides personalized suggestions based on user preferences |
 
 ---
 
@@ -283,6 +284,7 @@ mvn test
 - **Spring Data MongoDB** - Database integration
 - **JWT (JJWT)** - Token generation/validation
 - **Firebase** - Firebase services integration
+- **OpenAI** - AI-powered chatbot with personalized recommendations
 - **Lombok** - Boilerplate reduction
 - **Swagger/OpenAPI** - API documentation
 - **Jakarta Bean Validation** - Input validation
