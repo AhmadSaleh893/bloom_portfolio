@@ -93,7 +93,7 @@ public class VenueController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'venue')")
     @PutMapping("/{id}")
     public ResponseEntity<VenueDto> updateVenue(
             @PathVariable String id,
@@ -105,7 +105,7 @@ public class VenueController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'venue')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteVenue(@PathVariable String id) {
         boolean deleted = venueService.deleteVenue(id);

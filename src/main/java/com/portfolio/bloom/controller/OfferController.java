@@ -70,7 +70,7 @@ public class OfferController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'offer')")
     @PutMapping("/{id}")
     public ResponseEntity<OfferDto> updateOffer(
             @PathVariable String id,
@@ -81,7 +81,7 @@ public class OfferController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'offer')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOffer(@PathVariable String id) {
         boolean deleted = offerService.deleteOffer(id);

@@ -3,6 +3,7 @@ package com.portfolio.bloom.domain.model.offer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.portfolio.bloom.common.BaseEntity;
+import com.portfolio.bloom.domain.common.Ownable;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ import java.time.Instant;
 @Data
 @JsonIgnoreProperties
 @EqualsAndHashCode(callSuper = true)
-public class Offer extends BaseEntity<String> {
+public class Offer extends BaseEntity<String> implements Ownable {
     
     @NotNull(message = "Offer start date is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")

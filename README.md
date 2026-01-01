@@ -26,7 +26,7 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 | 🌍 **Multi-Language Support** | Built-in translation system for EN, AR, HE languages And easy to add more |
 | 🛡️ **Global Exception Handling** | Centralized error management with standardized error responses |
 | 📊 **MongoDB Integration** | Spring Data MongoDB with custom queries & soft deletes |
-| ✅ **Input Validation** | Jakarta Bean Validation for request validation |
+| ✅ **Input Validation** | 	Jakarta Bean Validation for request validation and a custom `@EnumTypeExists` validator |
 | 📖 **API Documentation** | Swagger/OpenAPI integration for interactive API docs |
 | 🔄 **Domain Models** | User, Venue, and Offer management with DTO patterns |
 
@@ -199,6 +199,11 @@ Authorization: Bearer <accessToken>
 - **Password Encryption**: BCrypt password hashing
 - **Role-Based Access Control**: ADMIN, USER roles
 - **Method Security**: `@PreAuthorize` annotations
+- **Ownership Validation**: Generic `isOwner()` function for data integrity
+  - Works with any entity implementing the `Ownable` interface
+  - Used in `@PreAuthorize` annotations to ensure users can only modify their own resources
+  - Example: `@PreAuthorize("hasRole('ADMIN') or @ownableSecurity.isOwner(#id, 'venue')")`
+  - Automatically validates ownership before allowing update/delete operations
 - **CORS Configuration**: Configurable CORS policies
 - **Token Management**: Access and refresh token support
 
@@ -230,6 +235,25 @@ Spring Data MongoDB repositories:
 - Custom query methods
 - Projections for optimized queries
 - Soft delete filtering
+
+### Input Validation
+Comprehensive input validation using Jakarta Bean Validation:
+- **Standard Annotations**: `@NotNull`, `@NotBlank`, `@Size`, `@Min`, `@Max`, `@Email`, etc.
+- **Custom Validators**: 
+  - `@EnumTypeExists` - Generic validator that works with any enum type
+    - Validates enum values with case-insensitive support
+    - Supports both enum instances and string representations
+    - Configurable case sensitivity via `ignoreCase` parameter
+    - Can be used with any enum class (e.g., `VenueType`, `PeopleType`, `PriceType`, etc.)
+- **Validation Groups**: Support for different validation contexts
+- **Error Messages**: Customizable validation error messages
+
+Example usage:
+```java
+@NotNull(message = "Venue type is required")
+@EnumTypeExists(message = "Venue type is not valid", enumClass = VenueType.class)
+private VenueType venueType;
+```
 
 ## 🧪 Testing
 

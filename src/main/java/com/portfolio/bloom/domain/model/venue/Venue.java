@@ -2,6 +2,8 @@ package com.portfolio.bloom.domain.model.venue;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.portfolio.bloom.common.BaseEntity;
+import com.portfolio.bloom.domain.common.Ownable;
+import com.portfolio.bloom.domain.common.validation.EnumTypeExists;
 import com.portfolio.bloom.domain.model.offer.Offer;
 import com.portfolio.bloom.domain.model.user.Address;
 import jakarta.validation.Valid;
@@ -28,7 +30,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties
 @EqualsAndHashCode(callSuper = true)
-public class Venue extends BaseEntity<String> {
+public class Venue extends BaseEntity<String> implements Ownable {
     
     @NotBlank(message = "Venue name is required")
     @Size(max = 100, message = "Venue name must not exceed 100 characters")
@@ -59,6 +61,7 @@ public class Venue extends BaseEntity<String> {
     private BigDecimal lowPrice;
 
     @NotNull(message = "Venue type is required")
+    @EnumTypeExists(message = "Venue type is not valid", enumClass = VenueType.class)
     private VenueType venueType;
     
     @NotNull(message = "People type is required")

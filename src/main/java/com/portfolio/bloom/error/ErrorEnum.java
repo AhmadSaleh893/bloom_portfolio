@@ -11,6 +11,7 @@ public enum ErrorEnum {
     
     // Offer errors
     OFFER_NOT_FOUND(400010, "error.offer.not-found", "Offer %snot found"),
+    OFFER_NOT_OWNER(400011, "error.offer.not-owner", "Offer not owned by the current user"),
     
     // Venue errors
     VENUE_NOT_FOUND(400020, "error.venue.not-found", "Venue %snot found"),
