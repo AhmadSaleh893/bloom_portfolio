@@ -23,7 +23,7 @@ A production-ready **Spring Boot REST API** demonstrating enterprise Java develo
 |---------|-------------|
 | 🔐 **JWT Authentication** | Secure token-based authentication with Spring Security & refresh tokens |
 | 🏗️ **Clean Architecture** | Layered design (Controllers → Services → Repositories → MongoDB) |
-| 🌍 **Multi-Language Support** | Built-in translation system for EN, AR, HE languages |
+| 🌍 **Multi-Language Support** | Built-in translation system for EN, AR, HE languages And easy to add more |
 | 🛡️ **Global Exception Handling** | Centralized error management with standardized error responses |
 | 📊 **MongoDB Integration** | Spring Data MongoDB with custom queries & soft deletes |
 | ✅ **Input Validation** | Jakarta Bean Validation for request validation |
